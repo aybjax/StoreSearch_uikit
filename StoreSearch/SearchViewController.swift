@@ -77,33 +77,6 @@ extension SearchViewController: UITableViewDelegate,
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        return UITableViewCell()
-        
-//        let cellIdentifier = "SearchResultCell"
-//
-//        var cell: UITableViewCell? = tableView.dequeueReusableCell(withIdentifier: cellIdentifier)
-//
-//        if cell == nil {
-//            cell = UITableViewCell(style: .default, reuseIdentifier: cellIdentifier)
-//        }
-//
-//        cell!.textLabel!.text = searchResults[indexPath.row]
-//
-//        return cell!
-        
-//        they are same
-        
-//        let cellIdentifier = "SearchResultCell"
-//
-//        var cell: UITableViewCell! = tableView.dequeueReusableCell(withIdentifier: cellIdentifier)
-//
-//        if cell == nil {
-//            cell = UITableViewCell(style: .default, reuseIdentifier: cellIdentifier)
-//        }
-//
-//        cell.textLabel!.text = searchResults[indexPath.row]
-//
-//        return cell
         
         let cellIdentifier = "SearchResultCell"
 
