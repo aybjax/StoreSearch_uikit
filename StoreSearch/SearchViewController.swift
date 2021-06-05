@@ -9,6 +9,13 @@ import UIKit
 
 class SearchViewController: UIViewController {
     
+    struct TableView {
+        struct CellIdentifier {
+            static let searchResultCell = "SearchResultCell"
+            static let nothingFoundCell = "NothingFoundCell"
+        }
+    }
+    
     // Properties
     // ==========
     @IBOutlet weak var searchBar: UISearchBar!
@@ -27,6 +34,11 @@ class SearchViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         // ==========================
+        
+        var cellNib = UINib(nibName: TableView.CellIdentifier.searchResultCell, bundle: nil)
+        tableView.register(cellNib, forCellReuseIdentifier: TableView.CellIdentifier.searchResultCell)
+        cellNib = UINib(nibName: TableView.CellIdentifier.nothingFoundCell, bundle: nil)
+        tableView.register(cellNib, forCellReuseIdentifier: TableView.CellIdentifier.nothingFoundCell)
     }
 
 
@@ -78,26 +90,26 @@ extension SearchViewController: UITableViewDelegate,
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cellIdentifier = "SearchResultCell"
-
-        var cell: UITableViewCell! = tableView.dequeueReusableCell(withIdentifier: cellIdentifier)
-
-        if cell == nil {
-                                        // has subtitle
-            cell = UITableViewCell(style: .subtitle, reuseIdentifier: cellIdentifier)
-        }
+//        let cellIdentifier = "SearchResultCell"
+//
+//        var cell: UITableViewCell! = tableView.dequeueReusableCell(withIdentifier: cellIdentifier)
+//
+//        if cell == nil {
+//                                        // has subtitle
+//            cell = UITableViewCell(style: .subtitle, reuseIdentifier: cellIdentifier)
+//        }
         
         if searchResults.count == 0 {
-            cell.textLabel!.text = "(Nothing found)"
-            cell.detailTextLabel!.text = ""
+            return tableView.dequeueReusableCell(withIdentifier: TableView.CellIdentifier.nothingFoundCell, for: indexPath)
         }
         else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "SearchResultCell", for: indexPath) as! SearchResultCell
             let searchResult = searchResults[indexPath.row]
-            cell.textLabel!.text = searchResult.name
-            cell.detailTextLabel!.text = searchResult.artistName
+            cell.nameLabel.text = searchResult.name
+            cell.artistNameLabel.text = searchResult.artistName
+            
+            return cell
         }
-
-        return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
