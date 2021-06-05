@@ -88,17 +88,7 @@ extension SearchViewController: UITableViewDelegate,
         }
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-//        let cellIdentifier = "SearchResultCell"
-//
-//        var cell: UITableViewCell! = tableView.dequeueReusableCell(withIdentifier: cellIdentifier)
-//
-//        if cell == nil {
-//                                        // has subtitle
-//            cell = UITableViewCell(style: .subtitle, reuseIdentifier: cellIdentifier)
-//        }
-        
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {        
         if searchResults.count == 0 {
             return tableView.dequeueReusableCell(withIdentifier: TableView.CellIdentifier.nothingFoundCell, for: indexPath)
         }
