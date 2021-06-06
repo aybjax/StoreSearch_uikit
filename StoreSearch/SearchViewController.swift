@@ -70,16 +70,7 @@ extension SearchViewController: UISearchBarDelegate {
             
             queue.async {
                 if let data = self.performStoreRequest(with: url) {
-                    self.searchResults = self.parse(data: data)
-    //                searchResults.sort(by: {result1, result2 in
-    //                    return result1.name.localizedStandardCompare(result2.name)
-    //                        == .orderedAscending
-    //                })
-                    
-    //                searchResults.sort { $0.name.localizedStandardCompare($1.name) == .orderedAscending}
-                    
-    //                searchResults.sort { $0 < $1}
-                    
+                    self.searchResults = self.parse(data: data)                    
                     self.searchResults.sort(by: <)
                 }
                 
