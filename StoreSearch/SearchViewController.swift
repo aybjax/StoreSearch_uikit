@@ -22,16 +22,27 @@ class SearchViewController: UIViewController {
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
     
+    @IBOutlet weak var segmentedControl: UISegmentedControl!
+    
     var searchResults = [SearchResult]()
     var hasSearched = false
     var isLoading = false
+    
+    var dataTask: URLSessionDataTask?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         searchBar.becomeFirstResponder()
         // Do any additional setup after loading the view.
-        tableView.contentInset = UIEdgeInsets(top: 64, left: 0,
+        tableView.contentInset = UIEdgeInsets(top: 108, left: 0,
                                               bottom: 0, right: 0)
+        
+        let segmentColor = UIColor(red: 10/255.0, green: 80/255.0, blue: 80/255.0, alpha: 1)
+        let selectedTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        let normalTextAttributes = [NSAttributedString.Key.foregroundColor: segmentColor]
+        segmentedControl.setTitleTextAttributes(normalTextAttributes, for: .normal)
+        segmentedControl.setTitleTextAttributes(selectedTextAttributes, for: .selected)
+//        segmentedControl.setTitleTextAttributes(selectedTextAttributes, for: .highlighted)
         
         // instead of dragging
         tableView.delegate = self
@@ -46,15 +57,23 @@ class SearchViewController: UIViewController {
         tableView.register(cellNib, forCellReuseIdentifier: TableView.CellIdentifier.LoadingCell)
     }
 
-
+    @IBAction func segmentChanged(_ sender: UISegmentedControl) {
+        performSearch()
+    }
 }
 
 
 
 extension SearchViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        performSearch()
+    }
+    
+    func performSearch() {
         if !searchBar.text!.isEmpty {
             searchBar.resignFirstResponder()
+            
+            dataTask?.cancel()
             
             isLoading = true
             tableView.reloadData()
@@ -63,34 +82,100 @@ extension SearchViewController: UISearchBarDelegate {
             searchResults = []
             
             /*
-             Async queue medium
+             URLSession
              */
-            let queue = DispatchQueue.global()
-            let url = iTunesURL(searchText: searchBar.text!)
+            let url = iTunesURL(searchText: searchBar.text!, category: segmentedControl.selectedSegmentIndex)
             
-            queue.async {
-                if let data = self.performStoreRequest(with: url) {
-                    self.searchResults = self.parse(data: data)                    
-                    self.searchResults.sort(by: <)
-                }
-                
-                print("DONE")
-                
-                /*
-                 UI in main queue
-                 */
-                
-                DispatchQueue.main.async {
-                    self.isLoading = false
-                    self.tableView.reloadData()
-                }
-            }
+            let session = URLSession.shared
+            
+            dataTask = session.dataTask(with: url,
+                                            completionHandler: {data, response, error in
+                                                if let error = error as NSError?, error.code == -999 {
+                                                    //print("Cancelled")
+                                                    return // cancelled
+//                                                    //print("Failure! \(error.localizedDescription)")
+                                                }
+                                                else if let httpResponse = response as? HTTPURLResponse,
+                                                        httpResponse.statusCode == 200 {
+                                                        //print("Success! \(data!)")
+                                                    if let data = data {
+                                                        self.searchResults = self.parse(data: data)
+                                                        self.searchResults.sort(by: <)
+                                                        
+                                                        DispatchQueue.main.async {
+                                                            self.isLoading = false
+                                                            self.tableView.reloadData()
+                                                        }
+                                                    }
+                                                    
+                                                    return
+                                                }
+                                                else {
+                                                    //print("Failure! \(response!)")
+                                                }
+                                                
+                                                // only error
+                                                DispatchQueue.main.async {
+                                                    self.hasSearched = false
+                                                    self.isLoading = false
+                                                    self.tableView.reloadData()
+                                                    self.showNetworkError()
+                                                }
+                                            })
+            dataTask?.resume()
         }
         
     }
     
     func position(for bar: UIBarPositioning) -> UIBarPosition {
         return .topAttached
+    }
+}
+
+
+extension SearchViewController {
+    // MARK: - synchronous
+    func iTunesURL(searchText: String, category: Int) -> URL {
+        let kind: String
+        
+        switch category {
+            case 1: kind = "musicTrack"
+            case 2: kind = "software"
+            case 3: kind = "ebook"
+            default: kind = ""
+        }
+        
+        let encodedText = searchText.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlUserAllowed)!
+        
+        let urlString = "https://itunes.apple.com/search?term=\(encodedText)&limit=200&entity=\(kind)"
+        
+        let url = URL(string: urlString)
+        
+        return url!
+    }
+    
+    func parse(data: Data) -> [SearchResult] {
+        do {
+            let decoder = JSONDecoder()
+            let result = try decoder.decode(ResultArray.self, from: data)
+            
+            return result.results
+        }
+        catch {
+            //print("JSON Error: \(error)")
+            
+            return []
+        }
+    }
+    
+    func showNetworkError() {
+        let alert = UIAlertController(title: "Whoops...",
+                                      message: "There was an error accessing the iTunes Store."
+                                        + " Please try again", preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+        
+        alert.addAction(action)
+        present(alert, animated: true, completion: nil)
     }
 }
 
@@ -113,7 +198,7 @@ extension SearchViewController: UITableViewDelegate,
         }
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {        
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if isLoading {
             let cell = tableView.dequeueReusableCell(withIdentifier: TableView.CellIdentifier.LoadingCell, for: indexPath)
             
@@ -130,14 +215,15 @@ extension SearchViewController: UITableViewDelegate,
         else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "SearchResultCell", for: indexPath) as! SearchResultCell
             let searchResult = searchResults[indexPath.row]
-            cell.nameLabel.text = searchResult.name
-            
-            if searchResult.artist.isEmpty {
-                cell.artistNameLabel.text = "Unknown"
-            }
-            else {
-                cell.artistNameLabel.text = String(format: "%@ (%@)", searchResult.artist, searchResult.type)
-            }
+            cell.configure(for: searchResult)
+//            cell.nameLabel.text = searchResult.name
+//
+//            if searchResult.artist.isEmpty {
+//                cell.artistNameLabel.text = "Unknown"
+//            }
+//            else {
+//                cell.artistNameLabel.text = String(format: "%@ (%@)", searchResult.artist, searchResult.type)
+//            }
             
             return cell
         }
@@ -157,53 +243,3 @@ extension SearchViewController: UITableViewDelegate,
     }
 }
 
-
-extension SearchViewController {
-    // MARK: - synchronous
-    func iTunesURL(searchText: String) -> URL {
-        let encodedText = searchText.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlUserAllowed)!
-        
-        let urlString = String(format: "https://itunes.apple.com/search?term=%@&limit=1000", encodedText)
-        
-        let url = URL(string: urlString)
-        
-        return url!
-    }
-    
-    func performStoreRequest(with url: URL) -> Data? {
-        do {
-//            return String(contentsOf: url, encoding: .utf8)
-            return try Data(contentsOf: url)
-        }
-        catch {
-            print("Download Error \(error.localizedDescription)")
-            showNetworkError()
-            
-            return nil
-        }
-    }
-    
-    func parse(data: Data) -> [SearchResult] {
-        do {
-            let decoder = JSONDecoder()
-            let result = try decoder.decode(ResultArray.self, from: data)
-            
-            return result.results
-        }
-        catch {
-            print("JSON Error: \(error)")
-            
-            return []
-        }
-    }
-    
-    func showNetworkError() {
-        let alert = UIAlertController(title: "Whoops...",
-                                      message: "There was an error accessing the iTunes Store."
-                                        + " Please try again", preferredStyle: .alert)
-        let action = UIAlertAction(title: "OK", style: .default, handler: nil)
-        
-        alert.addAction(action)
-        present(alert, animated: true, completion: nil)
-    }
-}
