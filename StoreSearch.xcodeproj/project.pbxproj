@@ -20,6 +20,9 @@
 		ADC157DD266BFA9300F99469 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ADC157DC266BFA9300F99469 /* Assets.xcassets */; };
 		ADEDFDB4266E84CD00F859F2 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADEDFDB3266E84CD00F859F2 /* DetailViewController.swift */; };
 		ADEDFDB8266E8B3500F859F2 /* DimmingPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADEDFDB7266E8B3500F859F2 /* DimmingPresentationController.swift */; };
+		ADEDFDBB266EAC3300F859F2 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADEDFDBA266EAC3300F859F2 /* GradientView.swift */; };
+		ADEDFDBE266EB07800F859F2 /* BounceAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADEDFDBD266EB07800F859F2 /* BounceAnimationController.swift */; };
+		ADEDFDC2266EB51B00F859F2 /* SlideOutAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADEDFDC1266EB51B00F859F2 /* SlideOutAnimationController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +41,9 @@
 		ADC157E1266BFA9300F99469 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ADEDFDB3266E84CD00F859F2 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		ADEDFDB7266E8B3500F859F2 /* DimmingPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DimmingPresentationController.swift; sourceTree = "<group>"; };
+		ADEDFDBA266EAC3300F859F2 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
+		ADEDFDBD266EB07800F859F2 /* BounceAnimationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BounceAnimationController.swift; sourceTree = "<group>"; };
+		ADEDFDC1266EB51B00F859F2 /* SlideOutAnimationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideOutAnimationController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,12 +78,15 @@
 			children = (
 				ADC157D3266BFA9200F99469 /* AppDelegate.swift */,
 				ADC157DC266BFA9300F99469 /* Assets.xcassets */,
+				ADEDFDBD266EB07800F859F2 /* BounceAnimationController.swift */,
 				ADEDFDB3266E84CD00F859F2 /* DetailViewController.swift */,
+				ADEDFDB7266E8B3500F859F2 /* DimmingPresentationController.swift */,
+				ADEDFDBA266EAC3300F859F2 /* GradientView.swift */,
 				ADC157E1266BFA9300F99469 /* Info.plist */,
+				ADEDFDC1266EB51B00F859F2 /* SlideOutAnimationController.swift */,
 				AD1DD424266D41A400DA58EB /* LoadingCell.xib */,
 				ADC157D9266BFA9200F99469 /* Main.storyboard */,
 				AD92B146266C310A0050361E /* NothingFoundCell.xib */,
-				ADEDFDB7266E8B3500F859F2 /* DimmingPresentationController.swift */,
 				ADC157D5266BFA9200F99469 /* SceneDelegate.swift */,
 				AD217D31266C1DC200E7DA13 /* SearchResult.swift */,
 				AD92B143266C2E020050361E /* SearchResultCell.swift */,
@@ -164,10 +173,13 @@
 				ADC157D4266BFA9200F99469 /* AppDelegate.swift in Sources */,
 				AD1DD42B266D668200DA58EB /* UIImageView+DownloadImage.swift in Sources */,
 				ADEDFDB8266E8B3500F859F2 /* DimmingPresentationController.swift in Sources */,
+				ADEDFDBE266EB07800F859F2 /* BounceAnimationController.swift in Sources */,
 				AD217D32266C1DC200E7DA13 /* SearchResult.swift in Sources */,
 				ADC157D6266BFA9200F99469 /* SceneDelegate.swift in Sources */,
 				AD92B144266C2E020050361E /* SearchResultCell.swift in Sources */,
+				ADEDFDC2266EB51B00F859F2 /* SlideOutAnimationController.swift in Sources */,
 				ADEDFDB4266E84CD00F859F2 /* DetailViewController.swift in Sources */,
+				ADEDFDBB266EAC3300F859F2 /* GradientView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
