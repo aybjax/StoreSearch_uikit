@@ -11,6 +11,7 @@
 		AD1DD42B266D668200DA58EB /* UIImageView+DownloadImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1DD42A266D668200DA58EB /* UIImageView+DownloadImage.swift */; };
 		AD217D32266C1DC200E7DA13 /* SearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD217D31266C1DC200E7DA13 /* SearchResult.swift */; };
 		AD23B2FB26751B2B00CCBF07 /* FadeOutAnumationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD23B2FA26751B2B00CCBF07 /* FadeOutAnumationController.swift */; };
+		AD24CE39267552C500DA7BEC /* Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD24CE38267552C500DA7BEC /* Search.swift */; };
 		AD92B141266C28210050361E /* SearchResultCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD92B140266C28210050361E /* SearchResultCell.xib */; };
 		AD92B144266C2E020050361E /* SearchResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD92B143266C2E020050361E /* SearchResultCell.swift */; };
 		AD92B147266C310A0050361E /* NothingFoundCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD92B146266C310A0050361E /* NothingFoundCell.xib */; };
@@ -32,6 +33,7 @@
 		AD1DD42A266D668200DA58EB /* UIImageView+DownloadImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+DownloadImage.swift"; sourceTree = "<group>"; };
 		AD217D31266C1DC200E7DA13 /* SearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResult.swift; sourceTree = "<group>"; };
 		AD23B2FA26751B2B00CCBF07 /* FadeOutAnumationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FadeOutAnumationController.swift; sourceTree = "<group>"; };
+		AD24CE38267552C500DA7BEC /* Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Search.swift; sourceTree = "<group>"; };
 		AD92B140266C28210050361E /* SearchResultCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchResultCell.xib; sourceTree = "<group>"; };
 		AD92B143266C2E020050361E /* SearchResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCell.swift; sourceTree = "<group>"; };
 		AD92B146266C310A0050361E /* NothingFoundCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NothingFoundCell.xib; sourceTree = "<group>"; };
@@ -93,6 +95,7 @@
 				ADC157D9266BFA9200F99469 /* Main.storyboard */,
 				AD92B146266C310A0050361E /* NothingFoundCell.xib */,
 				ADC157D5266BFA9200F99469 /* SceneDelegate.swift */,
+				AD24CE38267552C500DA7BEC /* Search.swift */,
 				AD217D31266C1DC200E7DA13 /* SearchResult.swift */,
 				AD92B143266C2E020050361E /* SearchResultCell.swift */,
 				AD92B140266C28210050361E /* SearchResultCell.xib */,
@@ -188,6 +191,7 @@
 				ADEDFDC5266EB6C800F859F2 /* LandscapeViewController.swift in Sources */,
 				ADEDFDBB266EAC3300F859F2 /* GradientView.swift in Sources */,
 				AD23B2FB26751B2B00CCBF07 /* FadeOutAnumationController.swift in Sources */,
+				AD24CE39267552C500DA7BEC /* Search.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
